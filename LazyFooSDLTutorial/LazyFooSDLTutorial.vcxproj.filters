@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\01_hello_SDL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\02_image_on_screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\03_event_driven_programming.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\04_key_presses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\05_optimized_surface_soft_stretching.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\06_extension_libraries_and_loading_other_image_formats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\07_texture_loading_rendering.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\08_geometry_rendering.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\09_viewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\10_color_keying.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\11_clip_rendering_sprite_sheets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\12_color_modulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\13_alpha_blending.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\14_animated_sprites_vsync.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\21_sound_music.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\15_rotation_flipping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\16_true_type_fonts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\17_mouse_events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\18_key_states.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\19_gamepads_joysticks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\20_force_feedback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\22_timing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\23_advanced_timers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\24_frame_rate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\25_capping_frame_rate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\26_motion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\27_collision_detection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\28_per-pixel_collision_detection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\29_circular_collision_detection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\30_scrolling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\31_scrolling_background.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\32_text_input_clipboard_handling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\33_file_reading_writing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\34_audio_recording.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\35_window_event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\36_mutiple_windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\HelloWorld.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\xOut.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\default.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\down.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\heartWM.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\up.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\loaded.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\kayak.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\spheres.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\squares.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\eye_apple.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\walk_anim.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\desert_background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\prompt.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\arrow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\default.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\eagle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\koi_fish.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\pond_floor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\dot.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\fly.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\thanksgiving_dinner.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\solarpunk_background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\solarpunk_player.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\hello_adobe.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\beat.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\high.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\low.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\medium.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\scratch.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\riff.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\lfk.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\WoodenChampionship_loboloco.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\lightning.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\font.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\nums.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
