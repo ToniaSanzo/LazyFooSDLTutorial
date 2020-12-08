@@ -79,10 +79,13 @@ const int SCREEN_HEIGHT = 794;
 LWindow::LWindow() {
     // Initialize non-existant window
     mWindow = NULL;
+    mRenderer = NULL;
     mMouseFocus = false;
     mKeyboardFocus = false;
     mFullScreen = false;
     mMinimized = false;
+    mShown = false;
+    mWindowID = 0;
     mWidth = 0;
     mHeight = 0;
 }
