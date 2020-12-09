@@ -123,6 +123,9 @@
     <ClCompile Include="src\36_mutiple_windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\37_mutiple_displays.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\HelloWorld.bmp">
