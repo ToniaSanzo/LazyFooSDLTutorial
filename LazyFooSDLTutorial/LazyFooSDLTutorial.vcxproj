@@ -180,6 +180,7 @@
     <ClCompile Include="src\35_window_event.cpp" />
     <ClCompile Include="src\36_mutiple_windows.cpp" />
     <ClCompile Include="src\37_mutiple_displays.cpp" />
+    <ClCompile Include="src\38_particle_engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\arrow.png" />
@@ -193,6 +194,7 @@
     <Image Include="assets\down.png" />
     <Image Include="assets\eagle.png" />
     <Image Include="assets\eye_apple.png" />
+    <Image Include="assets\fireball.png" />
     <Image Include="assets\fly.png" />
     <Image Include="assets\heartWM.bmp" />
     <Image Include="assets\HelloWorld.bmp" />
@@ -206,8 +208,12 @@
     <Image Include="assets\prompt.png" />
     <Image Include="assets\right.bmp" />
     <Image Include="assets\right.png" />
+    <Image Include="assets\shimmer.png" />
     <Image Include="assets\solarpunk_background.png" />
     <Image Include="assets\solarpunk_player.png" />
+    <Image Include="assets\spark_a.png" />
+    <Image Include="assets\spark_b.png" />
+    <Image Include="assets\spark_c.png" />
     <Image Include="assets\spheres.png" />
     <Image Include="assets\squares.png" />
     <Image Include="assets\thanksgiving_dinner.png" />

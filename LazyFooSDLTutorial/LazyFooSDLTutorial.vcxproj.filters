@@ -126,6 +126,9 @@
     <ClCompile Include="src\37_mutiple_displays.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\38_particle_engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\HelloWorld.bmp">
@@ -225,6 +228,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\hello_adobe.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\fireball.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\shimmer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\spark_a.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\spark_b.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\spark_c.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
