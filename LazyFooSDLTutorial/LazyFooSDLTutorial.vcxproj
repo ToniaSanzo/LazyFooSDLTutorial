@@ -181,6 +181,7 @@
     <ClCompile Include="src\36_mutiple_windows.cpp" />
     <ClCompile Include="src\37_mutiple_displays.cpp" />
     <ClCompile Include="src\38_particle_engine.cpp" />
+    <ClCompile Include="src\39_tiling.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\arrow.png" />
@@ -200,10 +201,12 @@
     <Image Include="assets\HelloWorld.bmp" />
     <Image Include="assets\hello_adobe.png" />
     <Image Include="assets\kayak.png" />
+    <Image Include="assets\knight.png" />
     <Image Include="assets\koi_fish.png" />
     <Image Include="assets\left.bmp" />
     <Image Include="assets\left.png" />
     <Image Include="assets\loaded.png" />
+    <Image Include="assets\map_tiles.png" />
     <Image Include="assets\pond_floor.png" />
     <Image Include="assets\prompt.png" />
     <Image Include="assets\right.bmp" />
@@ -237,6 +240,7 @@
     <Font Include="assets\font.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\land.map" />
     <None Include="assets\nums.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -129,6 +129,9 @@
     <ClCompile Include="src\38_particle_engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\39_tiling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\HelloWorld.bmp">
@@ -245,6 +248,12 @@
     <Image Include="assets\spark_c.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\map_tiles.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\knight.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\beat.wav">
@@ -282,6 +291,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\nums.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\land.map">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
