@@ -1,8 +1,8 @@
-/*
-* author: Tonia Sanzo
-*
-* Lesson 35: Window Events
-*/
+///*
+//* author: Tonia Sanzo
+//*
+//* Lesson 35: Window Events
+//*/
 //// Using SDL, SDL_image, SDL_ttf, standard IO, strings, and string streams
 //#include <SDL.h>
 //#include <SDL_image.h>
@@ -34,6 +34,8 @@
 //    // Window dimensions
 //    int getWidth();
 //    int getHeight();
+//    double getScale();
+//    void updateScale(double sc);
 //
 //    // Window focii
 //    bool hasMouseFocus();
@@ -43,6 +45,7 @@
 //private:
 //    // Window data
 //    SDL_Window *mWindow;
+//    double mScale;
 //
 //    // Window dimensions
 //    int mWidth;
@@ -88,10 +91,12 @@
 //    // Gets image dimensions
 //    int getWidth();
 //    int getHeight();
-//    int getScale();
+//    double getScale();
+//    double getWindowScale();
 //
-//    // Set image scale
+//    // Set image scale, and window scale
 //    void updateScale(double sc);
+//    void updateWindowScale(double sc);
 //private:
 //    // The actual hardware texture
 //    SDL_Texture *mTexture;
@@ -99,7 +104,7 @@
 //    // Image dimensions
 //    int mWidth;
 //    int mHeight;
-//    double scale;
+//    double scale, windowScale;
 //};
 //
 //// Our custom window
@@ -122,6 +127,7 @@
 //    mWidth = 0;
 //    mHeight = 0;
 //    scale = 1;
+//    windowScale = 1;
 //}
 //
 //// LTexture destructor
@@ -131,10 +137,17 @@
 //}
 //
 //// Sets LTextures render scale
-//void LTexture::updateScale(double sc) {
+//void LTexture::updateScale(double sc) 
+//{
 //    scale = sc;
 //    mWidth *= sc;
 //    mHeight *= sc;
+//}
+//
+//// Update the window scale
+//void LTexture::updateWindowScale(double sc)
+//{
+//    windowScale = sc;
 //}
 //
 //// Load Texture from a file
@@ -206,7 +219,7 @@
 //// Render texture
 //void LTexture::render(int x, int y, SDL_Rect *clip, double angle, SDL_Point *center, SDL_RendererFlip flip) {
 //    // Set Rendering space and render to screen
-//    SDL_Rect renderQuad = { x , y, mWidth * scale, mHeight * scale };
+//    SDL_Rect renderQuad = { x , y, mWidth * windowScale, mHeight * windowScale };
 //
 //    // Set clip rendering dimensions
 //    if (clip != NULL) {
@@ -221,7 +234,9 @@
 //// Getters for height, width, and scale
 //int LTexture::getHeight() { return mHeight; }
 //int LTexture::getWidth() { return mWidth; }
-//int LTexture::getScale() { return scale; }
+//double LTexture::getScale() { return scale; }
+//double LTexture::getWindowScale() { return windowScale; }
+//
 //
 //LWindow::LWindow() {
 //    // Initialize non-existant window
@@ -232,6 +247,7 @@
 //    mMinimized = false;
 //    mWidth = 0;
 //    mHeight = 0;
+//    mScale = 1;
 //}
 //
 //bool LWindow::init() {
@@ -256,12 +272,15 @@
 //    if (e.type == SDL_WINDOWEVENT) {
 //        // Caption update flag
 //        bool updateCaption = false;
+//        double tempScale = 1;
 //
 //        switch (e.window.event) {
 //        // Get new dimensions and repaint on window size change
-//        case SDL_WINDOWEVENT_SIZE_CHANGED:
+//        case SDL_WINDOWEVENT_RESIZED:
 //            mWidth = e.window.data1;
 //            mHeight = e.window.data2;
+//            tempScale = static_cast<double>(mHeight) / SCREEN_HEIGHT;
+//            updateScale(tempScale);
 //            SDL_RenderPresent(gRenderer);
 //            break;
 //
@@ -340,6 +359,11 @@
 //    return mHeight;
 //}
 //
+//double LWindow::getScale()
+//{
+//    return mScale;
+//}
+//
 //bool LWindow::hasMouseFocus() {
 //    return mMouseFocus;
 //}
@@ -350,6 +374,14 @@
 //
 //bool LWindow::isMinimized() {
 //    return mMinimized;
+//}
+//
+//void LWindow::updateScale(double sc)
+//{
+//    mWidth = SCREEN_WIDTH * sc;
+//    mHeight = SCREEN_HEIGHT * sc;
+//    SDL_SetWindowSize(mWindow, mWidth, mHeight);
+//    mScale = sc;
 //}
 //
 //void LWindow::free() {
@@ -475,6 +507,11 @@
 //                    gWindow.handleEvent(e);
 //                }
 //
+//                // Resize the texture in relation to the window rescale
+//                if (gSceneTexture.getWindowScale() != gWindow.getScale()) {
+//                    gSceneTexture.updateWindowScale(gWindow.getScale());
+//                }
+//
 //                // Only draw when not minimized
 //                if (!gWindow.isMinimized()) {
 //                    // Clear screen, to white
@@ -482,7 +519,7 @@
 //                    SDL_RenderClear(gRenderer);
 //
 //                    // Render textures
-//                    gSceneTexture.render((gWindow.getWidth() - gSceneTexture.getWidth()) / 2, (gWindow.getHeight() - gSceneTexture.getHeight()) / 2);
+//                    gSceneTexture.render(0, 0);
 //
 //                    // Update screen
 //                    SDL_RenderPresent(gRenderer);

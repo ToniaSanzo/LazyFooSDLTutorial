@@ -183,6 +183,11 @@
     <ClCompile Include="src\38_particle_engine.cpp" />
     <ClCompile Include="src\39_tiling.cpp" />
     <ClCompile Include="src\40_texture_manipulation.cpp" />
+    <ClCompile Include="src\41_bitmap_fonts.cpp" />
+    <ClCompile Include="src\42_texture_streaming.cpp" />
+    <ClCompile Include="src\43_render_to_texture.cpp" />
+    <ClCompile Include="src\44_frame_independent_movement.cpp" />
+    <ClCompile Include="src\45_timer_callbacks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\arrow.png" />
@@ -201,6 +206,9 @@
     <Image Include="assets\heartWM.bmp" />
     <Image Include="assets\HelloWorld.bmp" />
     <Image Include="assets\hello_adobe.png" />
+    <Image Include="assets\its_a_loop.png" />
+    <Image Include="assets\jellyfish.png" />
+    <Image Include="assets\jellyfish_bckgrnd.png" />
     <Image Include="assets\kayak.png" />
     <Image Include="assets\knight.png" />
     <Image Include="assets\koi_fish.png" />
@@ -213,6 +221,10 @@
     <Image Include="assets\right.bmp" />
     <Image Include="assets\right.png" />
     <Image Include="assets\shimmer.png" />
+    <Image Include="assets\skate_anim_1_0.png" />
+    <Image Include="assets\skate_anim_1_1.png" />
+    <Image Include="assets\skate_anim_1_2.png" />
+    <Image Include="assets\skate_anim_1_3.png" />
     <Image Include="assets\solarpunk_background.png" />
     <Image Include="assets\solarpunk_player.png" />
     <Image Include="assets\spark_a.png" />
@@ -222,6 +234,7 @@
     <Image Include="assets\squares.png" />
     <Image Include="assets\stickfigure.png" />
     <Image Include="assets\thanksgiving_dinner.png" />
+    <Image Include="assets\ToniaFont.png" />
     <Image Include="assets\up.bmp" />
     <Image Include="assets\up.png" />
     <Image Include="assets\walk_anim.png" />

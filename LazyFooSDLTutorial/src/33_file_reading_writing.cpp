@@ -1,8 +1,8 @@
-/*
-* author: Tonia Sanzo
-*
-* Lesson 33: File Reading and Writing
-*/
+///*
+//* author: Tonia Sanzo
+//*
+//* Lesson 33: File Reading and Writing
+//*/
 //#include <SDL.h>
 //#include <SDL_image.h>
 //#include <SDL_ttf.h>
@@ -328,7 +328,6 @@
 //
 //		// Create file for writing
 //		file = SDL_RWFromFile("assets/nums.bin", "w+b");
-//
 //
 //		if (file != NULL) {
 //			printf("New file created!\n");
