@@ -1,9 +1,10 @@
 ///*
 //* author: Tonia Sanzo
 //*
-//* Lesson 45: Timer Callbacks
+//* Lesson 47: Semaphores
 //*/
 //#include <SDL.h>
+//#include <SDL_thread.h>
 //#include <SDL_image.h>
 //#include <stdio.h>
 //#include <string>
@@ -22,6 +23,11 @@
 //SDL_Renderer* gRenderer = nullptr;
 //SDL_Window* gWindow = nullptr;
 //
+//// Data access semaphore
+//SDL_sem* gDataLock = SDL_CreateSemaphore(1);
+//
+//// The "data buffer"
+//int gData = -1;
 //
 //// Texture wrapper class
 //class UTexture {
@@ -82,14 +88,6 @@
 //    int mWidth, mHeight;
 //    double mScale;
 //};
-//
-//#define FRAME_WIDTH 1280
-//#define FRAME_HEIGHT 760
-//const int ANIMATION_FRAMES = 30;             // number of frames in the sprite sheet
-//UTexture gBackgroundTexture;                 // Sprite sheet, loaded as a UTexture
-//UTexture gBackgroundTextureAlt;              // Alternative, texture for fading frames together
-//
-//SDL_Rect gBackgroundClips[ANIMATION_FRAMES]; // Dimension and coordinates of each frame
 //
 //
 //// UTexture constructor
@@ -345,7 +343,6 @@
 //void close();
 //
 //
-//
 //// Initialize the SDL subsystems
 //bool init() {
 //    //Initialization flag
@@ -393,53 +390,23 @@
 //    return success;
 //}
 //
+//
 //bool loadMedia()
 //{
+//    // Initialize semaphore
+//    gDataLock = SDL_CreateSemaphore(1);
+//
 //    // Loading success flag
 //    bool success = true;
-//
-//    // Load the background texture
-//    if (!gBackgroundTexture.loadFromFile("assets/its_a_loop.png"))
-//    {
-//        printf("Failed to load its a loop texture!\n");
-//        success = false;
-//    }
-//
-//    else
-//    {
-//        gBackgroundTexture.setBlendMode(SDL_BLENDMODE_BLEND);
-//        // Set each frames coordinate and dimension
-//        for (int row = 0; row < 6; ++row)
-//        {
-//            for (int col = 0; col < 5; ++col)
-//            {
-//                gBackgroundClips[(row * 5) + col].x = col * FRAME_WIDTH;
-//                gBackgroundClips[(row * 5) + col].y = row * FRAME_HEIGHT;
-//                gBackgroundClips[(row * 5) + col].w = FRAME_WIDTH;
-//                gBackgroundClips[(row * 5) + col].h = FRAME_HEIGHT;
-//            }
-//        }
-//    }
-//
-//    // Load the background
-//    if (!gBackgroundTextureAlt.loadFromFile("assets/its_a_loop.png"))
-//    {
-//        printf("Failed to load its a loop texture!\n");
-//        success = false;
-//    }
-//
-//    else
-//    {
-//        gBackgroundTextureAlt.setBlendMode(SDL_BLENDMODE_BLEND);
-//    }
 //    return success;
 //}
 //
+//
 //void close()
 //{
-//    // Free loaded images
-//    gBackgroundTexture.free();
-//    gBackgroundTextureAlt.free();
+//    // Free semaphore
+//    SDL_DestroySemaphore(gDataLock);
+//    gDataLock = nullptr;
 //
 //    //Destroy window	
 //    SDL_DestroyRenderer(gRenderer);
@@ -451,6 +418,7 @@
 //    IMG_Quit();
 //    SDL_Quit();
 //}
+//
 //
 //// The application time based timer
 //class LTimer {
@@ -483,6 +451,7 @@
 //    bool mStarted;
 //};
 //
+//
 //LTimer::LTimer() {
 //    // Initialize the variables
 //    mStartTicks = 0;
@@ -491,6 +460,7 @@
 //    mPaused = false;
 //    mStarted = false;
 //}
+//
 //
 //void LTimer::start() {
 //    // Startthe timer
@@ -504,6 +474,7 @@
 //    mPausedTicks = 0;
 //}
 //
+//
 //void LTimer::stop() {
 //    // Stop the timer
 //    mStarted = false;
@@ -516,6 +487,7 @@
 //    mPausedTicks = 0;
 //}
 //
+//
 //void LTimer::pause() {
 //    // If the timer is running and isn't already paused
 //    if (mStarted && !mPaused) {
@@ -526,6 +498,7 @@
 //        mStartTicks = 0;
 //    }
 //}
+//
 //
 //void LTimer::unpause() {
 //    // If the timer is running and paused
@@ -540,6 +513,7 @@
 //        mPausedTicks = 0;
 //    }
 //}
+//
 //
 //Uint32 LTimer::getTicks() {
 //    // The actual timer time
@@ -560,470 +534,65 @@
 //    return time;
 //}
 //
+//
 //bool LTimer::isStarted() {
 //    // Timer is running and paused or unpaused
 //    return mStarted;
 //}
+//
 //
 //bool LTimer::isPaused() {
 //    // Timer is running and paused
 //    return mPaused && mStarted;
 //}
 //
-//Uint32 callback(Uint32 interval, void* param)
+//
+//// Our test thread function
+//int threadFuntion(void* data)
 //{
-//    (*(static_cast<bool*>(param))) = true;
-//    printf("Callback true!\n");
+//    // print incoming data
+//    printf("Running thread with value = %d\n", (int)data);
 //
 //    return 0;
 //}
 //
-//// Cycles through and plays the loading cycle of netflix
-//void netflixLoading(LTimer& aTimer, int& aFrm)
+//int worker(void* data)
 //{
-//    int frameTime = 322;
-//    if (aTimer.getTicks() > frameTime)
+//    printf("%s starting...\n", data);
+//
+//    // Pre thread random seeding
+//    srand(SDL_GetTicks());
+//
+//    // Work 5 times
+//    for (int i = 0; i < 5; ++i)
 //    {
-//        aFrm = (++aFrm) % 3;
-//        aTimer.stop();
-//        aTimer.start();
+//        // Wait randomly
+//        SDL_Delay(16 + rand() % 32);
+//
+//        // Lock
+//        SDL_SemWait(gDataLock);
+//
+//        // Print prework data
+//        printf("%s prework %d\n\n", data, gData);
+//
+//        // "Work"
+//        gData = rand() % 256;
+//
+//        // Print post work data
+//        printf("%s postwork %d\n\n", data, gData);
+//
+//        // Unlock
+//        SDL_SemPost(gDataLock);
+//
+//        // Wait randomly
+//        SDL_Delay(16 + rand() % 640);
 //    }
+//
+//    printf("%s finished!\n\n", data);
+//
+//    return 0;
 //}
 //
-//// Cycles through the loop sequence
-//void uhOhMoment(LTimer& aTimer, int& aFrm, Uint8& altMod, bool& renderAltImg, bool& aPlayUhOh)
-//{
-//    int frameTime = 317;
-//    int i = 0;
-//    int fadeFrames = 4;
-//
-//    // Baker smoking
-//    if (aTimer.getTicks() < frameTime * ++i) {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 3;
-//    }
-//    else if (aTimer.getTicks() < frameTime * ++i)
-//    {
-//        aFrm = 4;
-//    }
-//    // end Baker frame
-//
-//    // Brandon Breathing
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 7;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 5;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 7;
-//    }
-//    else if(aTimer.getTicks() < frameTime * (i += 3))
-//    {
-//        aFrm = 6;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 7;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 5;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 7;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 5;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 7;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 5;
-//    }
-//    // End Brandon Breathing
-//
-//    // Lights through blinds    
-//    else if (aTimer.getTicks() < frameTime * (i += fadeFrames))
-//    {
-//        renderAltImg = true;
-//        aFrm = 8;
-//    
-//        double whole = (frameTime * i) - (frameTime * (i - fadeFrames));
-//        double part = aTimer.getTicks() - (frameTime * (i - fadeFrames));
-//        double ratio = part / whole;
-//        altMod = 255 * ratio;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += fadeFrames))
-//    {
-//        renderAltImg = true;
-//        aFrm = 9;
-//    
-//        double whole = (frameTime * i) - (frameTime * (i - fadeFrames));
-//        double part = aTimer.getTicks() - (frameTime * (i - fadeFrames));
-//        double ratio = part / whole;
-//        altMod = 255 * ratio;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += fadeFrames))
-//    {
-//        renderAltImg = false;
-//        aFrm = 10;
-//    }
-//    // End Lights through blinds
-//
-//    // Blinds Zoom in
-//    else if (aTimer.getTicks() < frameTime * (i += 1))
-//    {
-//        aFrm = 11;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 1))
-//    {
-//        aFrm = 12;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 1))
-//    {
-//        aFrm = 13;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 3))
-//    {
-//        aFrm = 14;
-//    }
-//    // End blinds zoom in
-//
-//    // It's my Mom!
-//
-//    else if (aTimer.getTicks() < frameTime * (i += 3))
-//    {
-//        aFrm = 15;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 3))
-//    {
-//        aFrm = 16;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 5))
-//    {
-//        aFrm = 17;
-//    }
-//    // End its my mom
-//
-//    // My cousin Thiem
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }  
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//        aFrm = 20;
-//    }
-//
-//    // Thiem Talking
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//       aFrm = 19;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//       aFrm = 22;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//       aFrm = 19;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//       aFrm = 22;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//       aFrm = 19;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//       aFrm = 22;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//       aFrm = 19;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//       aFrm = 22;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//       aFrm = 19;
-//    }
-//
-//    else if (aTimer.getTicks() < frameTime * (i += 5))
-//    {
-//       aFrm = 22;
-//    }
-//    // End Thiem talking
-//
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i) + .5f))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i)+.5f))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 2))
-//    {
-//        aFrm = 20;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 18;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (static_cast<float>(i)+.5f))
-//    {
-//        aFrm = 20;
-//    }
-//    // End My cousin Thiem
-//
-//    // End sequence
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 0;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 1;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 2;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 25;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 26;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 21;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 27;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 21;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 27;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 21;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 27;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 21;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 27;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 23;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 28;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 23;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 28;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 23;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 26;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 29;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 0;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 1;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 2;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 0;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 1;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (++i))
-//    {
-//        aFrm = 2;
-//    }
-//    else if (aTimer.getTicks() < frameTime * (i += 16))
-//    {
-//        aFrm = 24;
-//    }
-//    // End end sequence
-//    
-//    else
-//    {
-//        printf("Time run: %d\n", aTimer.getTicks());
-//        aTimer.stop();
-//        aTimer.start();
-//        aPlayUhOh = false;
-//    }
-//}
 //
 //int main(int argc, char* args[])
 //{
@@ -1048,17 +617,11 @@
 //            //Event handler
 //            SDL_Event e;
 //
-//            // Keeps track of time between steps
-//            LTimer frmTimer;
-//            frmTimer.start();
-//
-//            // Set callback
-//            bool cbRecieved(false);
-//            SDL_TimerID timerID = SDL_AddTimer((rand() % 5 + 9) * 1000, callback, &cbRecieved);
-//            int currentClip = 0;
-//            bool renderAltImg = false;
-//            bool playUhOh = false;
-//            Uint8 altAlpha = 0;
+//            // Run the thread
+//            srand(SDL_GetTicks());
+//            SDL_Thread* threadA = SDL_CreateThread(worker, "Thread A", (void*)"Thread A");
+//            SDL_Delay(16 + rand() % 32);
+//            SDL_Thread* threadB = SDL_CreateThread(worker, "Thread B", (void*)"Thread B");
 //
 //            // While application is running
 //            while (!quit)
@@ -1074,42 +637,16 @@
 //                }
 //
 //                //Clear screen
-//                SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+//                SDL_SetRenderDrawColor(gRenderer, 0x33, 0x55, 0x33, 0xFF);
 //                SDL_RenderClear(gRenderer);
 //
-//                if (playUhOh)
-//                {
-//                    uhOhMoment(frmTimer, currentClip, altAlpha, renderAltImg, playUhOh);
-//                }
-//                else
-//                {
-//                    netflixLoading(frmTimer, currentClip);
-//                }
-//
-//                if (renderAltImg)
-//                {
-//                    gBackgroundTextureAlt.setAlpha(altAlpha);
-//                    gBackgroundTexture.render(0, 0, &gBackgroundClips[currentClip]);
-//                    gBackgroundTextureAlt.render(0, 0, &gBackgroundClips[currentClip + 1]);
-//
-//                }
-//                else
-//                {
-//                    gBackgroundTexture.render(0, 0, &gBackgroundClips[currentClip]);
-//                }
-//
-//                if (cbRecieved) {
-//                    printf("main thread! yes\n");
-//                    playUhOh = true;
-//                    cbRecieved = false;
-//                    timerID = SDL_AddTimer((rand() % 5 + 48) * 1000, callback, &cbRecieved);
-//                }
 //
 //                //Update screen
 //                SDL_RenderPresent(gRenderer);
 //            }
-//
-//            SDL_RemoveTimer(timerID);
+//            //Remove timer in case the call back was not called
+//            SDL_WaitThread(threadA, NULL);
+//            SDL_WaitThread(threadB, NULL);
 //        }
 //
 //        //Free resources and close SDL
