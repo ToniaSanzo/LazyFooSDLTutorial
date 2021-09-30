@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\C++Lib\SDL2_ttf-2.0.15\include;D:\C++Lib\SDL2_mixer-2.0.4\include;D:\C++Lib\SDL2_image-2.0.5\include;D:\C++Lib\SDL2-devel-2.0.12-VC\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\C++Lib\SDL2_ttf-2.0.15\lib\x64;D:\C++Lib\SDL2_mixer-2.0.4\lib\x64;D:\C++Lib\SDL2_image-2.0.5\lib\x64;D:\C++Lib\SDL2-devel-2.0.12-VC\SDL2-2.0.12\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\C++\LazyFooSDLTutorial\LazyFooSDLTutorial\glad\include;C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_ttf\include;C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_mixer\include;C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_image\include;C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_2.0.16\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_ttf\lib\x64;C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_mixer\lib\x64;C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_image\lib\x64;C:\Users\sanzo\OneDrive\Desktop\C++Libs\SDL2_2.0.16\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="glad\src\glad.c" />
     <ClCompile Include="src\01_hello_SDL.cpp" />
     <ClCompile Include="src\02_image_on_screen.cpp" />
     <ClCompile Include="src\03_event_driven_programming.cpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="src\47_semaphores.cpp" />
     <ClCompile Include="src\48_atomic_operations.cpp" />
     <ClCompile Include="src\49_mutex_conditions.cpp" />
+    <ClCompile Include="src\50_SDL_OpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\arrow.png" />

@@ -1,8 +1,8 @@
-///*
-//* author: Tonia Sanzo
-//*
-//* Lesson 45: Timer Callbacks
-//*/
+/*
+* author: Tonia Sanzo
+*
+* Lesson 45: Timer Callbacks
+*/
 //#include <SDL.h>
 //#include <SDL_image.h>
 //#include <stdio.h>
